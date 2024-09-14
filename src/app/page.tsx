@@ -1,10 +1,11 @@
 import HeroLayout from "@/components/layouts/Hero"
+import Navbar from "@/components/navigations/navbar/Navbar"
 
 export default function Home() {
   return (
     <>
       <HeroLayout>
-        <h1>Hello</h1>
+        <Navbar />
       </HeroLayout>
     </>
   )

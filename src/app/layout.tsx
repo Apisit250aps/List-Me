@@ -26,9 +26,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.className} antialiased`}>
-        <SessionProvider session={session}>
-          <HeroLayout>{children}</HeroLayout>
-        </SessionProvider>
+        <SessionProvider session={session}>{children}</SessionProvider>
       </body>
     </html>
   )

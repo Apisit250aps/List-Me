@@ -1,6 +1,6 @@
 import { MongoDBAdapter } from "@auth/mongodb-adapter"
 import NextAuth, { AuthOptions, DefaultSession } from "next-auth"
-import Google from "@/providers/google.provider"
+import googleProvider from "@/providers/google.provider"
 import mongoClient from "@/libs/mongo.client"
 import Credentials from "next-auth/providers/credentials"
 import { comparePasswords } from "@/libs/password"
@@ -19,7 +19,7 @@ declare module "next-auth" {
 export const authOptions = {
   adapter: MongoDBAdapter(mongoClient),
   providers: [
-    Google({
+    googleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!
     }),
@@ -69,11 +69,9 @@ export const authOptions = {
       return token
     }
   },
-  // pages: {
-  //   signIn: "/api/auth/signin",
-  //   signOut: "/api/auth/signout",
-  //   profile: "/api/auth/profile"
-  // }
+   pages: {
+    signIn: "/auth" // กำหนดหน้า custom sign-in
+  }
 } as AuthOptions
 
 const handler = NextAuth(authOptions)

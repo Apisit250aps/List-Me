@@ -2,7 +2,7 @@
 import React, { useState, FormEvent } from "react"
 import { signIn, SignInResponse } from "next-auth/react"
 import Swal from "sweetalert2"
-import { redirect } from "next/navigation"
+import { redirect, useRouter } from "next/navigation"
 
 export default function LoginForm() {
   const [email, setEmail] = useState("")
@@ -34,7 +34,7 @@ export default function LoginForm() {
           text: "You have signed in successfully!"
         })
 
-        redirect("/")
+        location.replace("/")
       }
     } catch (error) {
       console.error("An error occurred during sign in:", error)
@@ -46,7 +46,10 @@ export default function LoginForm() {
   const handleGoogleSignIn = async () => {
     setIsLoading(true)
     try {
-      const response = (await signIn("google")) as SignInResponse
+      const response = (await signIn("google", {
+        redirect:true
+      })) as SignInResponse
+      console.log(response)
 
       if (response.error) {
         // Display an error alert if sign-in fails
@@ -63,7 +66,7 @@ export default function LoginForm() {
           text: "You have signed in successfully!"
         })
         // Perform any additional logic after sign-in
-        redirect("/")
+        // location.replace("/")
       }
     } catch (error) {
       Swal.fire({
@@ -79,7 +82,7 @@ export default function LoginForm() {
   return (
     <div className="card bg-base-100 w-full">
       <div className="card-body">
-        <form onSubmit={handleSubmit}>
+        <form>
           <label className="input input-bordered flex items-center gap-2 mb-3">
             <i className="bx bx-envelope"></i>
             <input
@@ -116,22 +119,22 @@ export default function LoginForm() {
             </button>
           </div>
           <div className="divider">or</div>
-          <div className="grid grid-cols-1 gap-3">
-            <button
-              className="btn btn-wide btn-outline"
-              onClick={handleGoogleSignIn}
-              disabled={isLoading}
-            >
-              {!isLoading ? (
-                <div className="inline-flex">
-                  <i className="bx bxl-google me-2"></i>Continue with Google
-                </div>
-              ) : (
-                <span className="loading loading-spinner loading-lg"></span>
-              )}
-            </button>
-          </div>
         </form>
+        <div className="grid grid-cols-1 gap-3">
+          <button
+            className="btn btn-wide btn-outline"
+            onClick={handleGoogleSignIn}
+            disabled={isLoading}
+          >
+            {!isLoading ? (
+              <div className="inline-flex">
+                <i className="bx bxl-google me-2"></i>Continue with Google
+              </div>
+            ) : (
+              <span className="loading loading-spinner loading-lg"></span>
+            )}
+          </button>
+        </div>
       </div>
     </div>
   )

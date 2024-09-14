@@ -6,7 +6,7 @@ export default function Google<P extends GoogleProfile>(
 ): OAuthConfig<P> {
   return {
     id: "google",
-    name: "Google",
+    name: "google",
     type: "oauth",
     wellKnown: "https://accounts.google.com/.well-known/openid-configuration",
     authorization: { params: { scope: "openid email profile" } },
