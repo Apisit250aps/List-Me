@@ -1,6 +1,9 @@
 "use client"
 import React, { useState, FormEvent } from "react"
-import { signIn } from "next-auth/react"
+import { signIn, SignInResponse } from "next-auth/react"
+import Swal from "sweetalert2"
+import { redirect } from "next/navigation"
+import InputIcon from "../inputs/InputIcon"
 
 export default function AuthForm() {
   const [email, setEmail] = useState("")
@@ -11,18 +14,28 @@ export default function AuthForm() {
     e.preventDefault()
     setIsLoading(true)
     try {
-      const result = await signIn("credentials", {
-        callbackUrl: "/",
+      const response = (await signIn("credentials", {
+        redirect: false,
         email,
         password
-      })
-      if (result?.error) {
+      })) as SignInResponse
+      if (response?.error) {
         // Handle error (e.g., show error message)
-        console.error(result.error)
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: response.error || "Google Sign-In failed!"
+        })
       }
-      if (result?.ok) {
+      if (response?.ok) {
         // Handle success (e.g., redirect to dashboard)
-        console.log("Signed in successfully")
+        Swal.fire({
+          icon: "success",
+          title: "Success!",
+          text: "You have signed in successfully!"
+        })
+
+        redirect("/")
       }
     } catch (error) {
       console.error("An error occurred during sign in:", error)
@@ -33,59 +46,63 @@ export default function AuthForm() {
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true)
-    await signIn("google", { callbackUrl: "/" })
+    try {
+      const response = (await signIn("google")) as SignInResponse
+
+      if (response.error) {
+        // Display an error alert if sign-in fails
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: response.error || "Google Sign-In failed!"
+        })
+      } else {
+        // Handle successful sign-in
+        Swal.fire({
+          icon: "success",
+          title: "Success!",
+          text: "You have signed in successfully!"
+        })
+        // Perform any additional logic after sign-in
+        redirect("/")
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Something went wrong. Please try again later."
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
     <div className="card bg-base-100 w-full shadow-2xl">
       <div className="card-body">
-        <div className="grid grid-cols-1 gap-3">
-          <button
-            className="btn btn-wide btn-outline"
-            onClick={handleGoogleSignIn}
-            disabled={isLoading}
-          >
-            {!isLoading ? (
-              <div className="inline-flex">
-                <i className="bx bxl-google me-2"></i>Login with Google
-              </div>
-            ) : (
-              <span className="loading loading-spinner loading-lg"></span>
-            )}
-          </button>
-        </div>
-        <form onSubmit={handleSubmit} className="">
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Email</span>
-            </label>
+        <form onSubmit={handleSubmit}>
+          <label className="input input-bordered flex items-center gap-2 mb-3">
+            <i className="bx bx-envelope"></i>
             <input
-              type="email"
-              placeholder="email"
-              className="input input-bordered"
+              type="text"
+              className="grow"
+              placeholder="Email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-          </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Password</span>
-            </label>
+          </label>
+          <label className="input input-bordered flex items-center gap-2">
+            <i className="bx bx-key"></i>
             <input
               type="password"
-              placeholder="password"
-              className="input input-bordered"
-              required
+              className="grow"
+              placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
-            <label className="label">
-              <a href="#" className="label-text-alt link link-hover">
-                Forgot password?
-              </a>
-            </label>
-          </div>
+          </label>
           <div className="form-control mt-6">
             <button
               className="btn btn-active btn-outline"
@@ -96,6 +113,22 @@ export default function AuthForm() {
                 <span className="loading loading-spinner loading-lg"></span>
               ) : (
                 "Login"
+              )}
+            </button>
+          </div>
+          <div className="divider">or</div>
+          <div className="grid grid-cols-1 gap-3">
+            <button
+              className="btn btn-wide btn-outline"
+              onClick={handleGoogleSignIn}
+              disabled={isLoading}
+            >
+              {!isLoading ? (
+                <div className="inline-flex">
+                  <i className="bx bxl-google me-2"></i>Login with Google
+                </div>
+              ) : (
+                <span className="loading loading-spinner loading-lg"></span>
               )}
             </button>
           </div>

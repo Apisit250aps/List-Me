@@ -69,11 +69,11 @@ const authOptions = {
       return token
     }
   },
-  pages: {
-    signIn: "/api/auth/signin",
-    signOut: "/api/auth/signout",
-    profile: "/api/auth/profile"
-  }
+  // pages: {
+  //   signIn: "/api/auth/signin",
+  //   signOut: "/api/auth/signout",
+  //   profile: "/api/auth/profile"
+  // }
 } as AuthOptions
 
 const handler = NextAuth(authOptions)
