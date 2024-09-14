@@ -34,7 +34,7 @@ const authOptions = {
           return null
         }
 
-        const client = mongoClient
+        const client = await mongoClient
         const db = client.db()
         const user = await db
           .collection("users")

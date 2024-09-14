@@ -1,19 +1,14 @@
-// app/api/auth/register/route.ts
-import { NextResponse } from "next/server"
 
+import { NextResponse, NextRequest } from "next/server"
 import { hashPassword } from "@/libs/password"
 import mongoClient from "@/libs/mongo.client"
+import { IUser } from "@/models/user.model";
 
-interface IUser {
-  email: string
-  name?: string
-  password: string
-}
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const { email, password, name } = (await req.json()) as IUser
-    const client = mongoClient
+    const client = await mongoClient
     const db = client.db()
 
     const existingUser = await db.collection("users").findOne({ email })
