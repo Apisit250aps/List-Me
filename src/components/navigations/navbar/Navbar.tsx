@@ -4,6 +4,7 @@ import { signOut, useSession } from "next-auth/react"
 interface NavbarProp {
   actions?: ReactNode[]
 }
+import Image from "next/image"
 
 export default function Navbar(prop: NavbarProp) {
   const { data: session, status } = useSession()
@@ -23,9 +24,14 @@ export default function Navbar(prop: NavbarProp) {
             className="btn btn-ghost btn-circle avatar"
           >
             <div className="w-10 rounded-full">
-              <img
+              <Image
                 alt="Tailwind CSS Navbar component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                src={
+                  (session?.user.image as string) ||
+                  "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                }
+                width={64}
+                height={64}
               />
             </div>
           </div>
@@ -36,7 +42,9 @@ export default function Navbar(prop: NavbarProp) {
             <li>
               <a className="justify-between">
                 Profile
-                <span className="badge break-words text-nowrap">{session?.user.name}</span>
+                <span className="badge break-words text-nowrap">
+                  {session?.user.name}
+                </span>
               </a>
             </li>
             <li>

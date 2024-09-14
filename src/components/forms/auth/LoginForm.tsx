@@ -45,38 +45,9 @@ export default function LoginForm() {
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true)
-    try {
-      const response = (await signIn("google", {
-        redirect:true
-      })) as SignInResponse
-      console.log(response)
 
-      if (response.error) {
-        // Display an error alert if sign-in fails
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: response.error || "Google Sign-In failed!"
-        })
-      } else {
-        // Handle successful sign-in
-        Swal.fire({
-          icon: "success",
-          title: "Success!",
-          text: "You have signed in successfully!"
-        })
-        // Perform any additional logic after sign-in
-        // location.replace("/")
-      }
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Something went wrong. Please try again later."
-      })
-    } finally {
-      setIsLoading(false)
-    }
+    await signIn("google", {redirect:true, callbackUrl:"/"})
+
   }
 
   return (
@@ -118,7 +89,7 @@ export default function LoginForm() {
               )}
             </button>
           </div>
-          <div className="divider">or</div>
+          <div className="divider mb-1">or</div>
         </form>
         <div className="grid grid-cols-1 gap-3">
           <button

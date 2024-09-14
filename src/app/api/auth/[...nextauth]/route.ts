@@ -68,9 +68,6 @@ export const authOptions = {
       }
       return token
     }
-  },
-   pages: {
-    signIn: "/auth" // กำหนดหน้า custom sign-in
   }
 } as AuthOptions
 
