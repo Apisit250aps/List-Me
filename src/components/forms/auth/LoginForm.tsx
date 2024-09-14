@@ -3,9 +3,8 @@ import React, { useState, FormEvent } from "react"
 import { signIn, SignInResponse } from "next-auth/react"
 import Swal from "sweetalert2"
 import { redirect } from "next/navigation"
-import InputIcon from "../inputs/InputIcon"
 
-export default function AuthForm() {
+export default function LoginForm() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -78,7 +77,7 @@ export default function AuthForm() {
   }
 
   return (
-    <div className="card bg-base-100 w-full shadow-2xl">
+    <div className="card bg-base-100 w-full">
       <div className="card-body">
         <form onSubmit={handleSubmit}>
           <label className="input input-bordered flex items-center gap-2 mb-3">
@@ -125,7 +124,7 @@ export default function AuthForm() {
             >
               {!isLoading ? (
                 <div className="inline-flex">
-                  <i className="bx bxl-google me-2"></i>Login with Google
+                  <i className="bx bxl-google me-2"></i>Continue with Google
                 </div>
               ) : (
                 <span className="loading loading-spinner loading-lg"></span>
