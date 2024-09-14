@@ -1,6 +1,7 @@
 import { ObjectId, Document } from "mongodb"
 
-export interface IUser extends Document{
+export interface IUser extends Document {
+  _id: ObjectId
   name: string
   email: string
   password: string

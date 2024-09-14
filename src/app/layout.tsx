@@ -1,8 +1,9 @@
 import type { Metadata } from "next"
 import { Poppins } from "next/font/google"
 import "./globals.css"
-import 'boxicons/css/boxicons.css'
-// 
+import "boxicons/css/boxicons.css"
+import HeroLayout from "@/components/layouts/Hero"
+//
 const poppins = Poppins({
   weight: ["400", "500", "700"], // You can select multiple font weights
   subsets: ["latin"] // Specify the subset
@@ -19,7 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${poppins.className} antialiased`}>{children}</body>
+      <body className={`${poppins.className} antialiased`}>
+        <HeroLayout>{children}</HeroLayout>
+      </body>
     </html>
   )
 }

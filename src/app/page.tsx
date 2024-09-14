@@ -1,7 +1,11 @@
+import HeroLayout from "@/components/layouts/Hero"
+
 export default function Home() {
   return (
     <>
-      <h1>Hello</h1>
+      <HeroLayout>
+        <h1>Hello</h1>
+      </HeroLayout>
     </>
   )
 }
