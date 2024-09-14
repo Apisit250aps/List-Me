@@ -16,7 +16,7 @@ declare module "next-auth" {
   }
 }
 
-const authOptions = {
+export const authOptions = {
   adapter: MongoDBAdapter(mongoClient),
   providers: [
     Google({
