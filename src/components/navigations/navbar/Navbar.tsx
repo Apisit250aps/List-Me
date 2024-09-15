@@ -28,7 +28,7 @@ export default function Navbar(prop: NavbarProp) {
                 alt="Tailwind CSS Navbar component"
                 src={
                   (session?.user.image as string) ||
-                  "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                  "/mockup/user/user.webp"
                 }
                 width={64}
                 height={64}
@@ -37,13 +37,13 @@ export default function Navbar(prop: NavbarProp) {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            className="menu w-auto menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
             <li>
               <a className="justify-between">
                 Profile
-                <span className="badge break-words text-nowrap">
-                  {session?.user.name}
+                <span className="badge">
+                  <small className="text-clip text-nowrap">{session?.user.name}</small>
                 </span>
               </a>
             </li>

@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { Poppins } from "next/font/google"
 import "./globals.css"
 import "boxicons/css/boxicons.css"
-import HeroLayout from "@/components/layouts/Hero"
+
 import { getServerSession } from "next-auth"
 import { authOptions } from "./api/auth/[...nextauth]/route"
 import SessionProvider from "@/components/layouts/Session"
